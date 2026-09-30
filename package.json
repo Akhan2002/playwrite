@@ -1,0 +1,18 @@
+{
+  "name": "asana-board-playwright-tests",
+  "version": "1.0.0",
+  "description": "Data-driven Playwright tests validating tasks, columns and tags on an Asana-like demo board",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "report": "playwright show-report",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0"
+  }
+}
