@@ -102,8 +102,8 @@ Login counts as successful once the password field is hidden.
 
 ### How project navigation works
 
-`navigateToProject(name)` clicks the sidebar entry (a button or link with that name),
-then waits for a heading with the project name. That confirms the right board is showing before any assertions run.
+`navigateToProject(name)` clicks the project's button in the sidebar navigation,
+then waits for the project name to appear as the `<h1>` in the page header. That confirms the right board is showing before any assertions run.
 
 ### How column validation works
 

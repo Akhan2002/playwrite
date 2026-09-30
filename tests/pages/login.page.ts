@@ -11,7 +11,7 @@ export class LoginPage {
   readonly submitButton: Locator;
 
   constructor(private readonly page: Page) {
-    // VERIFY LOCALLY: label/placeholder text of the login fields and the submit button name.
+    // Fields are matched by label or placeholder so minor copy changes do not break login.
     this.usernameInput = page.getByLabel(/username/i).or(page.getByPlaceholder(/username/i)).first();
     this.passwordInput = page.getByLabel(/password/i).or(page.getByPlaceholder(/password/i)).first();
     this.submitButton = page.getByRole('button', { name: /sign in|log in|login/i });

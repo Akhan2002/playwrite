@@ -3,7 +3,7 @@ import { expect, type Locator, type Page } from '@playwright/test';
 /**
  * Every column that can appear on a board. A column is located as "the element that
  * contains this column's header and none of the other headers", so this list only needs
- * to include the columns that really exist on the board. VERIFY LOCALLY if the app uses other names.
+ * to include the columns that really exist on the board. Add any new column name here.
  */
 export const BOARD_COLUMNS = ['To Do', 'In Progress', 'Review', 'Done'] as const;
 
@@ -13,15 +13,13 @@ export class ProjectPage {
   // ---------- Project navigation ----------
 
   async navigateToProject(projectName: string): Promise<void> {
-    // VERIFY LOCALLY: sidebar projects are assumed to be buttons or links named after the project.
-    const projectEntry = this.page
-      .getByRole('button', { name: projectName })
-      .or(this.page.getByRole('link', { name: projectName }))
-      .first();
-    await projectEntry.click();
+    // Sidebar entries are buttons whose accessible name starts with the project name.
+    await this.page.getByRole('navigation').getByRole('button', { name: projectName }).click();
 
-    // VERIFY LOCALLY: the selected project's name is assumed to appear as the board heading.
-    await expect(this.page.getByRole('heading', { name: projectName })).toBeVisible();
+    // The selected project is shown as the <h1> in the page header (the sidebar uses <h2>).
+    await expect(
+      this.page.getByRole('banner').getByRole('heading', { level: 1, name: projectName, exact: true }),
+    ).toBeVisible();
   }
 
   // ---------- Columns ----------
@@ -95,7 +93,7 @@ export class ProjectPage {
     await expect(card, `card for "${taskName}"`).toBeVisible();
 
     for (const tag of expectedTags) {
-      // VERIFY LOCALLY: tags are assumed to render as an element whose full text is the tag name.
+      // Each tag is its own element, so an exact match avoids e.g. "Design" matching a title.
       await expect(
         card.getByText(tag, { exact: true }),
         `"${taskName}" should have the "${tag}" tag`,
